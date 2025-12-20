@@ -107,9 +107,168 @@ _inputs:
       allow_create: true
       empty_type: array
     cascade: true
+  
+  # Text inputs
+  title:
+    type: text
+    label: Title
+    comment: The main title/heading
+  
+  subtitle:
+    type: text
+    label: Subtitle
+    comment: A short subtitle or tagline
+  
+  description:
+    type: textarea
+    label: Description
+    comment: A brief description
+  
+  description_html:
+    type: html
+    label: Description
+    comment: Rich text description with formatting
+    options:
+      bold: true
+      italic: true
+      link: true
+      bulletedlist: true
+      numberedlist: true
+  
+  content_html:
+    type: html
+    label: Content
+    comment: Main content area with rich formatting
+    options:
+      bold: true
+      italic: true
+      link: true
+      bulletedlist: true
+      numberedlist: true
+      image: true
+      blockquote: true
+      code: true
+  
+  # Image inputs
+  image:
+    type: image
+    label: Image
+    comment: Upload or select an image
+  
+  hero_image_alt:
+    type: text
+    label: Image Alt Text
+    comment: Describe the image for accessibility
+  
+  # Button inputs
+  cta_button:
+    type: text
+    label: CTA Button Text
+  
+  cta_button_link:
+    type: url
+    label: CTA Button Link
+  
+  works_button:
+    type: text
+    label: Secondary Button Text
+  
+  works_button_link:
+    type: url
+    label: Secondary Button Link
+  
+  # Newsletter inputs
+  newsletter_title:
+    type: text
+    label: Newsletter Title
+  
+  newsletter_description:
+    type: text
+    label: Newsletter Description
+  
+  newsletter_button:
+    type: text
+    label: Button Text
+  
+  newsletter_identifier:
+    type: text
+    label: Form Identifier
+    comment: Your newsletter service form ID
+  
+  # Contact form inputs
+  form_title:
+    type: text
+    label: Form Title
+  
+  form_description:
+    type: textarea
+    label: Form Description
+  
+  form_button_text:
+    type: text
+    label: Submit Button Text
+  
+  form_submission_email:
+    type: email
+    label: Submission Email
+    comment: Email to receive form submissions
+  
+  form_success_page:
+    type: url
+    label: Success Page URL
+    comment: Page to redirect after form submission
+  
+  # Testimonial inputs
+  name:
+    type: text
+    label: Name
+  
+  position:
+    type: text
+    label: Position/Role
+  
+  blurb:
+    type: textarea
+    label: Testimonial Text
+  
+  # Copyright/footer
+  copyright_text_html:
+    type: html
+    label: Copyright Text
+    options:
+      bold: true
+      italic: true
+      link: true
 
 # Globally scoped structs
 _structures:
   content_blocks:
     style: modal
     values: []
+
+# Editor configuration
+_editables:
+  text:
+    bold: true
+    italic: true
+    link: true
+  block:
+    bold: true
+    italic: true
+    link: true
+    bulletedlist: true
+    numberedlist: true
+    image: true
+    blockquote: true
+  content:
+    bold: true
+    format: p h1 h2 h3 h4
+    italic: true
+    link: true
+    bulletedlist: true
+    numberedlist: true
+    image: true
+    blockquote: true
+    code: true
+    horizontalrule: true
+    table: true
