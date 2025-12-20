@@ -94,3 +94,33 @@
     font-size: 14px;
   }
 }
+
+/* Admin Login Link */
+.admin-login-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  color: rgba($white, 0.4);
+  background: rgba($white, 0.05);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    color: $white;
+    background: rgba($white, 0.15);
+    transform: rotate(90deg);
+  }
+
+  &::after {
+    content: none;
+  }
+
+  ion-icon {
+    display: block;
+  }
+}
