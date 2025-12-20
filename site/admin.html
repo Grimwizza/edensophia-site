@@ -8,9 +8,22 @@ permalink: /admin/
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - {{ site.data.general_settings.title }}</title>
-    <meta http-equiv="refresh" content="0; url=https://app.cloudcannon.com/">
+    <title>Admin Portal - {{ site.data.general_settings.title }}</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <style>
+        :root {
+            --primary: #1495a7;
+            --secondary: #003687;
+            --dark: #110E38;
+            --white: #fff;
+            --gray: #f5f5f5;
+            --border: #d5dce3;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -22,106 +35,454 @@ permalink: /admin/
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--secondary) 50%, var(--primary) 100%);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: #fff;
+            color: var(--dark);
+            padding: 20px;
         }
 
-        .admin-container {
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-container {
             text-align: center;
             padding: 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-            width: 90%;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.4);
+            max-width: 420px;
+            width: 100%;
         }
 
-        .admin-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
+        .logo {
+            margin-bottom: 1.5rem;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.75rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         h1 {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
         }
 
-        p {
-            color: rgba(255, 255, 255, 0.7);
+        .subtitle {
+            color: #666;
             margin-bottom: 2rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 1.5rem;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #667eea;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
         }
 
-        .admin-link {
-            display: inline-block;
-            padding: 0.875rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(20, 149, 167, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: #999;
+        }
+
+        .error-message {
+            display: none;
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            padding: 0.75rem;
+            background: #fdf2f2;
+            border-radius: 8px;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            margin-top: 0.5rem;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 149, 167, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            margin-top: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+        }
+
+        .back-link a {
+            color: var(--white);
             text-decoration: none;
-            border-radius: 10px;
             font-weight: 500;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Screen */
+        .dashboard-screen {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .dashboard-screen.active {
+            display: block;
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--white);
+        }
+
+        .dashboard-header .logo-text {
+            color: var(--white);
+            -webkit-text-fill-color: var(--white);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            opacity: 0.8;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--dark);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .card-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-content p {
+            font-size: 0.875rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .main-action {
+            text-align: center;
+        }
+
+        .main-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: var(--white);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .admin-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        .main-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .note {
+        .main-action-btn ion-icon {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logout-link {
+            text-align: center;
             margin-top: 2rem;
+        }
+
+        .logout-link a {
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+        }
+
+        .logout-link a:hover {
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="admin-container">
-        <div class="admin-logo">🔐</div>
-        <h1>Admin Portal</h1>
-        <p>Redirecting you to the CloudCannon editor...</p>
-        <div class="spinner"></div>
-        <a href="https://app.cloudcannon.com/" class="admin-link">
-            Open CloudCannon
-        </a>
-        <p class="note">
-            If you're not redirected automatically,<br>click the button above.
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="logo">
+                {% if site.data.navigation.logo_image %}
+                <img src="{{ site.data.navigation.logo_image }}" alt="{{ site.data.general_settings.title }}">
+                {% else %}
+                <span class="logo-text">{{ site.data.general_settings.title }}</span>
+                {% endif %}
+            </div>
+
+            <h1>Admin Portal</h1>
+            <p class="subtitle">Enter your access code to continue</p>
+
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="accessCode">Access Code</label>
+                    <input type="password" id="accessCode" name="accessCode" placeholder="Enter your access code"
+                        autocomplete="off" required>
+                </div>
+
+                <div class="error-message" id="errorMessage">
+                    Invalid access code. Please try again.
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Sign In
+                </button>
+            </form>
+        </div>
+
+        <p class="back-link">
+            <a href="/">← Back to website</a>
         </p>
     </div>
 
+    <!-- Dashboard Screen -->
+    <div class="dashboard-screen" id="dashboardScreen">
+        <div class="dashboard-header">
+            <div class="logo-text">{{ site.data.general_settings.title }}</div>
+            <p>Welcome to your content management dashboard</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="home-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>Edit Home Page</h3>
+                    <p>Update hero section, projects showcase, and testimonials</p>
+                </div>
+            </a>
+
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="document-text-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>Blog Posts</h3>
+                    <p>Create, edit, or delete blog articles</p>
+                </div>
+            </a>
+
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="briefcase-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>Projects</h3>
+                    <p>Manage your portfolio projects</p>
+                </div>
+            </a>
+
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="chatbubble-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>Testimonials</h3>
+                    <p>Add or edit client testimonials</p>
+                </div>
+            </a>
+
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="person-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>About Page</h3>
+                    <p>Update your bio and profile information</p>
+                </div>
+            </a>
+
+            <a href="https://app.cloudcannon.com/" class="dashboard-card" target="_blank">
+                <div class="card-icon">
+                    <ion-icon name="settings-outline"></ion-icon>
+                </div>
+                <div class="card-content">
+                    <h3>Site Settings</h3>
+                    <p>Logo, navigation, footer, and social links</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="main-action">
+            <a href="https://app.cloudcannon.com/" class="main-action-btn" target="_blank">
+                <ion-icon name="create-outline"></ion-icon>
+                Open Visual Editor
+            </a>
+        </div>
+
+        <div class="logout-link">
+            <a href="#" onclick="handleLogout()">Sign out</a>
+        </div>
+    </div>
+
     <script>
-        // Fallback redirect if meta refresh doesn't work
-        setTimeout(function () {
-            window.location.href = 'https://app.cloudcannon.com/';
-        }, 1000);
+        // Simple client-side password protection
+        // IMPORTANT: Change this access code to something secure!
+        const ACCESS_CODE = 'eden2024';
+        const SESSION_KEY = 'admin_authenticated';
+
+        // Check if already authenticated
+        function checkAuth() {
+            if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+                showDashboard();
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const codeInput = document.getElementById('accessCode');
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (codeInput.value === ACCESS_CODE) {
+                sessionStorage.setItem(SESSION_KEY, 'true');
+                showDashboard();
+            } else {
+                errorMessage.classList.add('show');
+                codeInput.value = '';
+                codeInput.focus();
+
+                // Hide error after 3 seconds
+                setTimeout(() => {
+                    errorMessage.classList.remove('show');
+                }, 3000);
+            }
+
+            return false;
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboardScreen').classList.add('active');
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem(SESSION_KEY);
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('dashboardScreen').classList.remove('active');
+            document.getElementById('accessCode').value = '';
+        }
+
+        // Check auth on page load
+        checkAuth();
     </script>
 </body>
 
